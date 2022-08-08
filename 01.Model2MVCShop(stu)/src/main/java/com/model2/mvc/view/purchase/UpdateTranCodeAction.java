@@ -1,11 +1,15 @@
 package com.model2.mvc.view.purchase;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.model2.mvc.common.Page;
 import com.model2.mvc.common.Search;
 import com.model2.mvc.framework.Action;
 import com.model2.mvc.service.domain.Purchase;
+import com.model2.mvc.service.domain.User;
 import com.model2.mvc.service.purchase.PurchaseService;
 import com.model2.mvc.service.purchase.impl.PurchaseServiceImpl;
 
@@ -38,6 +42,21 @@ public class UpdateTranCodeAction extends Action {
 		
 		int pageSize = Integer.parseInt(getServletContext().getInitParameter("pageSize"));
 		int pageUnit = Integer.parseInt(getServletContext().getInitParameter("pageUnit"));
+		search.setCurrentPage(currentPage);
+		search.setPageSize(pageSize);
+		
+		String userId = ((User)request.getSession(true).getAttribute("user") ).getUserId();
+		Map<String, Object> map = service.getPurchaseList(search, userId);
+		
+		Page resultPage = new Page(currentPage, (int)map.get("count"), pageUnit, pageSize);
+		
+		request.setAttribute("list", map.get("list"));
+		request.setAttribute("search", search);
+		request.setAttribute("resultPage", resultPage);
+		request.setAttribute("menu", menu);
+		
+		System.out.println("[업데이트 TranCode 종료");
+		return "forward:/purchase/listPurchase.jsp";
 		
 	}
 

@@ -2,6 +2,7 @@
     pageEncoding="EUC-KR"%>
     
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <html>
 <head>
@@ -14,6 +15,11 @@
 function fncGetProductList(currentPage){
 	document.getElementById("currentPage").value = currentPage;
 	document.detailForm.submit();
+}
+function fncGetProductList() {
+	document.detailForm.searchCondition.value = document.detailFrom.searchCondition.value;
+	document.forms[0].elements[2].value = document.forms[0].elements[2].value;
+	document.detailFrom.submit();
 }
 
 </script>
@@ -76,7 +82,7 @@ function fncGetProductList(currentPage){
 						<img src="/images/ct_btnbg01.gif" width="17" height="23">
 					</td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-						<a href="javascript:fncGetProductList(1);">검색</a>
+						<a href="javascript:fncGetProductList();">검색</a>
 					</td>
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif" width="14" height="23">
@@ -109,25 +115,40 @@ function fncGetProductList(currentPage){
 		<td colspan="11" bgcolor="808285" height="1"></td>
 	</tr>
 	
-	<c:set var="i" value="0" />
-	<c:forEach var="product" items="${list }">
-		<c:set var="i" value="${i+1 }" />
-	<tr class="ct_list_pop">
-		<td align="center">${i }</td>
-		<td></td>
+	<c:set var="size" value="${fn:length(list) }" />
+	
+	<c:if test="${!empty sessionScope.user && sessionScope.user.role == 'admin' }">
+		<c:forEach var="i" begin="0" end="2" step="1">
+			<tr class="ct_list_pop">
+			<td align="center">${size-i}</td>
+			<td></td>
 		<c:if test="${param.menu == 'search'}">
-			<td align="left"><a href="/getProduct.do?prodNo=${product.prodNo }">${product.prodName }</a></td>
+			<td align="left"><a href="/getProduct.do?prodNo=${list[size-1-i].prodNo }">${list[size-1-i].prodName }</a></td>
 		</c:if>		
 		<c:if test="${param.menu == 'manage'}">
-			<td align="left"><a href="/updateProductView.do?prodNo=${product.prodNo }">${product.prodName }</a></td>
+			<td align="left"><a href="/updateProductView.do?prodNo=${list[size-1-i].prodNo }">${list[size-1-i].prodName }</a></td>
 		</c:if>
 		<td></td>
-		<td align="left">${product.price }</td>
+		<td align="left">${list[size-1-i].price }</td>
 		<td></td>
-		<td align="left">${product.regDate }</td>
+		<td align="left">${list[size-1-i].regDate }</td>
 		<td></td>
 		<td align="left">
-			${purchase.tranCode }
+			<c:if test="${ fn:trim(list[size-1-i].tranCode) == '0' }">
+				판매중
+			</c:if>
+			<c:if test="${ fn:trim(list[size-1-i].tranCode) == '1'}">
+				구매완료
+				<c:if test="${param.menu == 'manage' }">
+					-<a href="/updateTranCodeByProd.do?prodNo=${list[size-1-i].prodNo}&currentPage=${resultPage.currentPage}&tranCode=2&menu=${menu}">배송하기</a>
+				</c:if>
+			</c:if>
+			<c:if test="${ fn:trim(list[size-1-i].tranCode)== '2' }">
+				배송중
+			</c:if>
+			<c:if test="${ fn:trim(list[size-1-i].tranCode)== '3' }">
+				배송완료
+			</c:if>			
 		</td>
 	</tr>
 	<tr>
@@ -135,6 +156,40 @@ function fncGetProductList(currentPage){
 	</tr>
 	
 	</c:forEach>
+	</c:if>
+	
+	<c:if test="${sessionScope.user.role == 'user' || empty sessionScope.user }">
+		<c:forEach var="i" begin="0" end="${size-1 }" step="1">
+			<tr class="ct_list_pop">
+				<td align="center">${size-i }</td>
+				<td></td>
+					<td align="left">
+						<c:if test="${list[size-1-i].tranCode == '0' }">
+							<a href="/getProduct.do?prodNo=${list[size-1-i].prodNo}&menu=${param.menu}">${list[size-1-i].prodName}</a>
+						</c:if>
+						<c:if test="${list[size-1-i].tranCode != '0' }">
+							${list[size-1-i].prodName }
+						</c:if>
+					</td>
+				<td></td>
+				<td align="left">${list[size-1-i].price }</td>
+				<td></td>
+				<td align="left">${list[size-1-i].regDate }</td>
+				<td></td>
+				<td align="left">
+					<c:if test="${ fn:trim(list[size-1-i].tranCode) == '0' }">
+						판매중
+					</c:if>
+					<c:if test="${ fn:trim(list[size-1-i].tranCode) != '0' }">
+						재고없음
+					</c:if>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="11" bgcolor="D6D7D6" height="1"></td>
+			</tr>
+			</c:forEach>
+		</c:if>
 
 </table>	
 
@@ -145,8 +200,9 @@ function fncGetProductList(currentPage){
 		<td align="center">
 			<input type="hidden" id="currentPage" name="currentPage" value=""/>
 
+			<jsp:include page="../common/pageNavigator.jsp"/>
 
-		<c:if test="${resultPage.currentPage <= resultPage.pageUnit }">
+	<%-- 	<c:if test="${resultPage.currentPage <= resultPage.pageUnit }">
 				◀ 이전
 		</c:if>
 		
@@ -163,7 +219,7 @@ function fncGetProductList(currentPage){
 		</c:if>
 		<c:if test="${ resultPage.endUnitPage < resultPage.maxPage }">
 				<a href="javascript:fncGetProductList('${resultPage.endUnitPage+1}')">이후 ▶</a>
-		</c:if>
+		</c:if> --%>
 		
 
     	</td>

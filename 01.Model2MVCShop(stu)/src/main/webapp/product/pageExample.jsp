@@ -1,8 +1,7 @@
 <%@ page contentType="text/html; charset=euc-kr" %>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 	
-<%-- 	<c:if test="${ resultPage.currentPage <= resultPage.pageUnit }">
+	<%-- <c:if test="${ resultPage.currentPage <= resultPage.pageUnit }">
 			◀ 이전
 	</c:if>
 	<c:if test="${ resultPage.currentPage > resultPage.pageUnit }">
@@ -21,7 +20,7 @@
 	</c:if> --%>
 	
 	
-		<c:if test="${ resultPage.beginUnitPage != 1 }">
+	<c:if test="${ resultPage.beginUnitPage != 1 }">
 		<a href="javascript:fncGetList('1')">처음으로&nbsp;</a>
 	</c:if>
 	<c:if test="${ resultPage.beginUnitPage != 1 }">
@@ -36,5 +35,5 @@
 		<a href="javascript:fncGetList('${ resultPage.endUnitPage+1 }')">&nbsp;다음</a>
 	</c:if>
 	<c:if test="${ resultPage.endUnitPage != resultPage.maxPage }">
-		<a href="javascript:fncGetList('${ resultPage.maxPage }')">&nbsp;마지막</a>
+		<a href="javascript:fncGetList('${ resultPage.maxPage }')">&nbsp;끝으로</a>
 	</c:if>

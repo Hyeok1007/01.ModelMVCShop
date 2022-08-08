@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.model2.mvc.common.Page;
 import com.model2.mvc.common.Search;
+import com.model2.mvc.common.util.CommonUtil;
 import com.model2.mvc.framework.Action;
 import com.model2.mvc.service.product.ProductService;
 import com.model2.mvc.service.product.impl.ProductServiceImpl;
@@ -14,17 +15,30 @@ import com.model2.mvc.service.product.impl.ProductServiceImpl;
 public class ListProductAction extends Action {
 
 	public String execute(HttpServletRequest request,HttpServletResponse response) throws Exception {
-		
-		Search search = new Search();
+				
+		System.out.println("[ListProduct 액션 시작~]");
+		String menu = request.getParameter("menu");
 		
 		int currentPage=1;
 		
-		if(request.getParameter("currentPage") != null)
-			currentPage=Integer.parseInt(request.getParameter("currentPage"));
+		String searchKeyword = CommonUtil.null2str(request.getParameter("searchKeyword"));
+		String searchCondition = CommonUtil.null2str(request.getParameter("searchCondition"));
 		
+		System.out.println("리스트 중간확인 "+request.getParameter("currentPage"));
+		
+		if(request.getParameter("currentPage") != null && !request.getParameter("currentPage").equals("")) {
+			currentPage=Integer.parseInt(request.getParameter("currentPage"));
+		}
+			
+		Search search = new Search();
 		search.setCurrentPage(currentPage);
-		search.setSearchCondition(request.getParameter("searchCondition"));
-		search.setSearchKeyword(request.getParameter("searchKeyword"));
+		
+		if(!searchCondition.trim().equals("1")  && !CommonUtil.parsingCheck(searchKeyword) ) {
+			searchKeyword = "";
+		}
+		
+		search.setSearchCondition(searchCondition);
+		search.setSearchKeyword(searchKeyword);
 		
 		int pageSize = Integer.parseInt(getServletContext().getInitParameter("pageSize"));
 		int pageUnit = Integer.parseInt(getServletContext().getInitParameter("pageUnit"));
@@ -33,15 +47,17 @@ public class ListProductAction extends Action {
 		ProductService productService = new ProductServiceImpl();
 		Map<String, Object>map=productService.getProductList(search);
 		
-		Page resultPage = new Page(currentPage,((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+		Page resultPage = new Page(currentPage,((Integer)map.get("count")).intValue(), pageUnit, pageSize);
 		System.out.println("ListProductAction :: "+resultPage);
 	
 		
 		request.setAttribute("list", map.get("list"));
 		request.setAttribute("resultPage", resultPage);
 		request.setAttribute("search", search);
-		request.setAttribute("menu", request.getParameter("menu"));
+		request.setAttribute("menu", menu);
 		
+		
+		System.out.println("[ListProduct 액션 끝~!]");
 		return "forward:/product/listProduct.jsp";
 	}
 
