@@ -103,4 +103,13 @@ public class CommonUtil {
 			return toAmountStr(amount.toString());
 		}
 	}
+	
+	public static boolean parsingCheck(String org) {
+		try {
+			Double.parseDouble(org);
+			return true;
+		}catch (Exception e) {
+			return false;
+		}
+	}
 }
