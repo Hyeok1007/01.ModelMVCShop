@@ -24,7 +24,8 @@ public class AddProductAction extends Action{
 		
 		if(FileUpload.isMultipartContent(request)) {
 			
-			String temDir = "C:\\workspace\\01.Model2MVCShop(ins)\\src\\main\\webapp\\images\\uploadFiles\\";
+			String temDir = "C:\\Users\\bitcamp\\git\\01.ModelMVCShop\\01.Model2MVCShop(stu)\\src\\main\\webapp\\images\\uploadFiles";
+//			C:\Users\bitcamp\git\01.ModelMVCShop\01.Model2MVCShop(stu)\src\main\webapp\images
 				
 		DiskFileUpload fileUpload = new DiskFileUpload();
 		fileUpload.setRepositoryPath(temDir);
@@ -91,23 +92,24 @@ public class AddProductAction extends Action{
 	} else {
 		System.out.println("인코딩 타입이 multipart/form-data가 아닙니다..");
 	}		
-		
-		Product product = new Product();
-		System.out.println("액션시작");
-		
-		product.setProdName(request.getParameter("prodName"));
-		product.setProdDetail(request.getParameter("prodDetail"));
-		product.setManuDate(request.getParameter("manuDate"));
-		product.setPrice(Integer.parseInt(request.getParameter("price")));
-		product.setFileName(request.getParameter("fileName"));
-								
-		ProductService service = new ProductServiceImpl();
-		service.addProduct(product);
-		request.setAttribute("product", product);
-		
-		System.out.println("VO확인1 : "+product);
-					
+//		
+//		Product product = new Product();
+//		System.out.println("액션시작");
+//		
+//		product.setProdName(request.getParameter("prodName"));
+//		product.setProdDetail(request.getParameter("prodDetail"));
+//		product.setManuDate(request.getParameter("manuDate"));
+//		product.setPrice(Integer.parseInt(request.getParameter("price")));
+//		product.setFileName(request.getParameter("fileName"));
+//								
+//		ProductService service = new ProductServiceImpl();
+//		service.addProduct(product);
+//		request.setAttribute("product", product);
+//		
+//		System.out.println("VO확인1 : "+product);
+//					
 		
 		return "forward:/product/addProduct.jsp";
+//		return "forward:/product/getProduct.jsp";
 	}
 }

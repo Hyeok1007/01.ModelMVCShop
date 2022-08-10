@@ -37,7 +37,7 @@ public class ListPurchaseAction extends Action {
 		
 		Map<String, Object>map=purchaseService.getPurchaseList(search, userId);
 		
-		Page resultPage = new Page(currentPage,(int)map.get("count"), pageUnit, pageSize);
+		Page resultPage = new Page(currentPage,(int)map.get("totalCount"), pageUnit, pageSize);
 		System.out.println("ListPurchaseAction :: "+resultPage);
 	
 		

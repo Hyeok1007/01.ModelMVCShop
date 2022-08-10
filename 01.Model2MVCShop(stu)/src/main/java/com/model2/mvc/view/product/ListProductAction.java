@@ -47,7 +47,7 @@ public class ListProductAction extends Action {
 		ProductService productService = new ProductServiceImpl();
 		Map<String, Object>map=productService.getProductList(search);
 		
-		Page resultPage = new Page(currentPage,((Integer)map.get("count")).intValue(), pageUnit, pageSize);
+		Page resultPage = new Page(currentPage,((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
 		System.out.println("ListProductAction :: "+resultPage);
 	
 		

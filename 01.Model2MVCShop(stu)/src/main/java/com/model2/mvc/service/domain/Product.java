@@ -12,7 +12,7 @@ public class Product {
 	private String prodName;
 	private int prodNo;
 	private Date regDate;
-	private String tranCode;
+	private String proTranCode;
 
 	
 	public Product(){
@@ -61,18 +61,18 @@ public class Product {
 		this.regDate = regDate;
 	}
 
-	public String getTranCode() {
-		return tranCode;
+	public String getProTranCode() {
+		return proTranCode;
 	}
 
-	public void setTranCode(String tranCode) {
-		this.tranCode = tranCode;
+	public void setProTranCode(String proTranCode) {
+		this.proTranCode = proTranCode;
 	}
 
 	@Override
 	public String toString() {
 		return "Product [fileName=" + fileName + ", manuDate=" + manuDate + ", price=" + price + ", prodDetail="
-				+ prodDetail + ", prodName=" + prodName + ", prodNo=" + prodNo + ", regDate=" + regDate + ", tranCode="
-				+ tranCode + "]";
+				+ prodDetail + ", prodName=" + prodName + ", prodNo=" + prodNo + ", regDate=" + regDate + ", proTranCode="
+				+ proTranCode + "]";
 	}	
 }

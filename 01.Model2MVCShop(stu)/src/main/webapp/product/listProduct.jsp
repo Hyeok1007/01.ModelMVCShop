@@ -16,11 +16,11 @@ function fncGetProductList(currentPage){
 	document.getElementById("currentPage").value = currentPage;
 	document.detailForm.submit();
 }
-function fncGetProductList() {
+<%-- function fncGetProductList() {
 	document.detailForm.searchCondition.value = document.detailFrom.searchCondition.value;
 	document.forms[0].elements[2].value = document.forms[0].elements[2].value;
 	document.detailFrom.submit();
-}
+} --%>
 
 </script>
 </head>
@@ -120,7 +120,7 @@ function fncGetProductList() {
 	<c:if test="${!empty sessionScope.user && sessionScope.user.role == 'admin' }">
 		<c:forEach var="i" begin="0" end="2" step="1">
 			<tr class="ct_list_pop">
-			<td align="center">${size-i}</td>
+		 	<td align="center">${size-i}</td> 
 			<td></td>
 		<c:if test="${param.menu == 'search'}">
 			<td align="left"><a href="/getProduct.do?prodNo=${list[size-1-i].prodNo }">${list[size-1-i].prodName }</a></td>
@@ -133,20 +133,31 @@ function fncGetProductList() {
 		<td></td>
 		<td align="left">${list[size-1-i].regDate }</td>
 		<td></td>
-		<td align="left">
-			<c:if test="${ fn:trim(list[size-1-i].tranCode) == '0' }">
+		<td align="left">		 	
+		  	<c:if test="${ fn:trim(list[size-1-i].proTranCode) == '0' }"> 
+		<%--   	<c:if test="${ list[size-1-i].proTranCode == '0' }"> --%> 
+		 <%-- 	<c:if test="${product.proTranCode == '0' }"> --%> 
 				판매중
-			</c:if>
-			<c:if test="${ fn:trim(list[size-1-i].tranCode) == '1'}">
+		 	</c:if> 
+		 	
+		  	<c:if test="${ fn:trim(list[size-1-i].proTranCode) == '1'}"> 
+		<%--  	<c:if test="${ list[size-1-i].proTranCode == '1'}"> --%>
+		<%--  	<c:if test="${product.proTranCode == '1'}"> --%>  
 				구매완료
 				<c:if test="${param.menu == 'manage' }">
-					-<a href="/updateTranCodeByProd.do?prodNo=${list[size-1-i].prodNo}&currentPage=${resultPage.currentPage}&tranCode=2&menu=${menu}">배송하기</a>
+					<a href="/updateTranCodeByProd.do?prodNo=${list[size-1-i].prodNo}&currentPage=${resultPage.currentPage}&tanscode=2&menu=${menu}">배송하기</a>
+		<%-- 			<a href="/updateTranCodeByProd.do?prodNo=${product.prodNo}&tranCode=2">배송하기</a> --%>
 				</c:if>
 			</c:if>
-			<c:if test="${ fn:trim(list[size-1-i].tranCode)== '2' }">
+		 	
+		 	<c:if test="${ fn:trim(list[size-1-i].proTranCode)== '2' }">  
+		<%--  	<c:if test="${list[size-1-i].proTranCode == '2' }"> --%>
+		<%--  	<c:if test="${product.proTranCode == '2' }"> --%> 
 				배송중
-			</c:if>
-			<c:if test="${ fn:trim(list[size-1-i].tranCode)== '3' }">
+			</c:if>		 	 
+		  	<c:if test="${ fn:trim(list[size-1-i].proTranCode)== '3' }">
+		<%--  	<c:if test="${list[size-1-i].proTranCode == '3' }"> --%>
+		<%--  	<c:if test="${product.proTranCode == '3' }"> --%>  
 				배송완료
 			</c:if>			
 		</td>
@@ -164,10 +175,10 @@ function fncGetProductList() {
 				<td align="center">${size-i }</td>
 				<td></td>
 					<td align="left">
-						<c:if test="${list[size-1-i].tranCode == '0' }">
+						<c:if test="${list[size-1-i].proTranCode == '0' }">
 							<a href="/getProduct.do?prodNo=${list[size-1-i].prodNo}&menu=${param.menu}">${list[size-1-i].prodName}</a>
 						</c:if>
-						<c:if test="${list[size-1-i].tranCode != '0' }">
+						<c:if test="${list[size-1-i].proTranCode != '0' }">
 							${list[size-1-i].prodName }
 						</c:if>
 					</td>
@@ -177,10 +188,10 @@ function fncGetProductList() {
 				<td align="left">${list[size-1-i].regDate }</td>
 				<td></td>
 				<td align="left">
-					<c:if test="${ fn:trim(list[size-1-i].tranCode) == '0' }">
+					<c:if test="${ fn:trim(list[size-1-i].proTranCode) == '0' }">
 						판매중
 					</c:if>
-					<c:if test="${ fn:trim(list[size-1-i].tranCode) != '0' }">
+					<c:if test="${ fn:trim(list[size-1-i].proTranCode) != '0' }">
 						재고없음
 					</c:if>
 				</td>
@@ -200,9 +211,9 @@ function fncGetProductList() {
 		<td align="center">
 			<input type="hidden" id="currentPage" name="currentPage" value=""/>
 
-			<jsp:include page="../common/pageNavigator.jsp"/>
+	<%-- 		<jsp:include page="../common/pageNavigator.jsp"/> --%>
 
-	<%-- 	<c:if test="${resultPage.currentPage <= resultPage.pageUnit }">
+	 	<c:if test="${resultPage.currentPage <= resultPage.pageUnit }">
 				◀ 이전
 		</c:if>
 		
@@ -219,7 +230,7 @@ function fncGetProductList() {
 		</c:if>
 		<c:if test="${ resultPage.endUnitPage < resultPage.maxPage }">
 				<a href="javascript:fncGetProductList('${resultPage.endUnitPage+1}')">이후 ▶</a>
-		</c:if> --%>
+		</c:if>
 		
 
     	</td>
