@@ -33,7 +33,8 @@ public class ListProductAction extends Action {
 		Search search = new Search();
 		search.setCurrentPage(currentPage);
 		
-		if(!searchCondition.trim().equals("1")  && !CommonUtil.parsingCheck(searchKeyword) ) {
+//		if(!searchCondition.trim().equals("1")  && !CommonUtil.parsingCheck(searchKeyword) ) {
+		if(!searchCondition.trim().equals("1") ) {
 			searchKeyword = "";
 		}
 		

@@ -133,19 +133,19 @@ public class ProductDAO {
 	}
 		
 		
-		public void updateProduct(Product vo) throws Exception {
+		public void updateProduct(Product product) throws Exception {
 			
 			Connection con = DBUtil.getConnection();
 			
-			String sql = "UPDATE product SET PROD_NAME=?,PROD_DETAIL=?,MANUFACTURE_DAY=?,price=?,IMAGE_FILE=? WHERE PROD_NO=?";
+			String sql = "UPDATE product SET prod_name=?,prod_detail=?,manufacture_day=?,price=?,image_file=? WHERE prod_no=?";
 			
 			PreparedStatement pStmt = con.prepareStatement(sql);
-			pStmt.setString(1, vo.getProdName());
-			pStmt.setString(2, vo.getProdDetail());
-			pStmt.setString(3, vo.getManuDate());
-			pStmt.setInt(4, vo.getPrice());
-			pStmt.setString(5, vo.getFileName());
-			pStmt.setInt(6, vo.getProdNo());
+			pStmt.setString(1, product.getProdName());
+			pStmt.setString(2, product.getProdDetail());
+			pStmt.setString(3, product.getManuDate());
+			pStmt.setInt(4, product.getPrice());
+			pStmt.setString(5, product.getFileName());
+			pStmt.setInt(6, product.getProdNo());
 			
 			pStmt.executeUpdate();
 			con.close();
