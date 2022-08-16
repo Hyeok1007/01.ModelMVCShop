@@ -77,6 +77,7 @@ public class ProductDAO {
 				sql += " AND p.prod_no=" + search.getSearchKeyword();
 			}else if(search.getSearchCondition().equals("1")) {
 				sql += " AND UPPER(p.prod_name) LIKE UPPER('%" + search.getSearchKeyword()+"%') ";
+//				sql += " AND UPPER(p.prod_name) LIKE '%" + search.getSearchKeyword()+"%'";
 			}else if(search.getSearchCondition().equals("2")) {
 				sql += " AND p.price="+ search.getSearchKeyword();
 			}
