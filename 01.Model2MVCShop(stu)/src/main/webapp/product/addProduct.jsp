@@ -103,8 +103,8 @@
 			<!-- 테이블 시작 -->
 			<table border="0" cellspacing="0" cellpadding="0">
 				<tr>
-					<td height="26"><img
-						src="/images/uploadFiles/../../images/uploadFiles/${product.fileName}" /></td>
+					<td height="26">
+					<img src="/images/uploadFiles/../../images/uploadFiles/${product.fileName}" /></td>
 				</tr>
 			</table>
 			</td>
