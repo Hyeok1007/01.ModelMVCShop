@@ -22,7 +22,7 @@
 	<td height="10" >&nbsp;</td>
   </tr>
   <tr>
-    <td width="800" height="30"><h2>Model2 MVC Shop &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;안 사도 그만인 쇼핑몰</h2></td>
+    <td width="800" height="30"><h2>Model2 MVC Shop &nbsp;&nbsp;${user.userName}님 기다리고 있었습니다.</h2></td>
   </tr>
   <tr>
     <td height="20" align="right" background="/images/img_bg.gif">
